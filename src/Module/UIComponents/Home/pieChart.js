@@ -1,0 +1,112 @@
+import * as React from 'react';
+import { useState } from 'react';
+import Paper from '@mui/material/Paper';
+import {
+  Chart,
+  PieSeries,
+} from '@devexpress/dx-react-chart-material-ui';
+import Typography from '@mui/material/Typography';
+import NativeSelect from '@mui/material/NativeSelect';
+import FormControl from '@mui/material/FormControl';
+import { styled } from '@mui/material/styles';
+import {
+  schemeCategory10,
+  schemeAccent,
+  schemeDark2,
+  schemePaired,
+  schemePastel1,
+  schemePastel2,
+  schemeSet1,
+  schemeSet2,
+  schemeSet3,
+} from 'd3-scale-chromatic';
+
+import { Palette } from '@devexpress/dx-react-chart';
+
+const schemeCollection = [
+  schemeCategory10,
+  schemeAccent,
+  schemeDark2,
+  schemePaired,
+  schemePastel1,
+  schemePastel2,
+  schemeSet1,
+  schemeSet2,
+  schemeSet3,
+];
+
+const PREFIX = 'Demo';
+
+const classes = {
+  typography: `${PREFIX}-typography`,
+  div: `${PREFIX}-div`,
+  item: `${PREFIX}-item`,
+  schemeConteiner: `${PREFIX}-schemeConteiner`,
+};
+
+const StyledDiv = styled('div')(({ theme }) => ({
+  [`&.${classes.div}`]: {
+    width: '200px',
+    marginLeft: '50px',
+    paddingBottom: '30px',
+  },
+  [`&.${classes.item}`]: {
+    width: '40px',
+    height: '40px',
+  },
+  [`&.${classes.schemeConteiner}`]: {
+    display: 'flex',
+    justifyContent: 'center',
+    marginTop: theme.spacing(1),
+  },
+}));
+
+const StyledTypography = styled(Typography)(({ theme }) => ({
+  [`&.${classes.typography}`]: {
+    marginTop: 0,
+    marginBottom: theme.spacing(1),
+  },
+}));
+
+const data = [];
+for (let i = 0; i < 7; i += 1) {
+  data.push({ category: `item${i}`, val: 1 });
+}
+
+export default function PieChart() {
+  const [scheme, setScheme] = useState(schemeCollection[0])
+
+  const changeScheme =(e)=> {
+    setScheme(schemeCollection[e.target.value])
+  }
+    return (
+      <Paper>
+        <Chart
+          data={data}          
+        >          
+          <PieSeries
+            name='Orders Matrix'
+            valueField="val"
+            argumentField="category"
+          />
+        </Chart>        
+        <StyledDiv className={classes.div}>
+          <StyledTypography component="h5" variant="h5" className={classes.typography}>Scheme</StyledTypography>
+          <FormControl>
+            <NativeSelect onChange={changeScheme} defaultValue={0}>
+              <option value={0}>schemeCategory10</option>
+              <option value={1}>schemeAccent</option>
+              <option value={2}>schemeDark2</option>
+              <option value={3}>schemePaired</option>
+              <option value={4}>schemePastel1</option>
+              <option value={5}>schemePastel2</option>
+              <option value={6}>schemeSet1</option>
+              <option value={7}>schemeSet2</option>
+              <option value={8}>schemeSet3</option>
+            </NativeSelect>
+          </FormControl>
+        </StyledDiv>
+      </Paper>
+    )
+ 
+}
