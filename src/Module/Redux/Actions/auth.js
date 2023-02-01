@@ -17,6 +17,7 @@ export const validateSession = (navigate, payload = {}) => async (dispatch, getS
 }
 
 export const logout = (navigate, payload = {}) => async (dispatch, getState) => {
+    dispatch({ type : ActionTypes.LOADER, payload: {state:true, title:"Logging Out..."}})
     const url = '/auth/logout/';
     const method = 'get';
     const params = { router: navigate, action: ActionTypes.LOGOUT, dispatch, getState, url, method, payload };

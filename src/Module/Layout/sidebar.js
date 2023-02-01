@@ -63,7 +63,7 @@ export default function SideBar(props) {
                 aria-labelledby="nested-list-subheader"
                 subheader={
                     <ListSubheader component="div" id="nested-list-subheader">
-                        Shiplogic Solutions
+                        Translogics Solutions
                     </ListSubheader>
                 }
             >
@@ -74,7 +74,7 @@ export default function SideBar(props) {
                             <Box key={index} sx={{ mb: 0.5 }}>
                                 <ListItemButton onClick={() => handleMenuClick(item)} >
                                     <ListItemIcon sx={{ my: 'auto', minWidth: 36 }}>
-                                        <Icon fontSize="small"  >{item.icon}</Icon>
+                                        <Icon fontSize="small" color="red" >{item.icon}</Icon>
                                     </ListItemIcon>
                                     <ListItemText primary={
                                         <Typography variant={'body1'} color="inherit" sx={{ my: 'auto', fontSize: 13, fontWeight: 700 }}>

@@ -15,13 +15,10 @@ import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import BgImage from '../../Assets/Static/Images/bg2.jpeg';
 import Logo from '../../Assets/Static/Images/logo1.jpeg';
-import { useNavigate, useParams } from 'react-router';
-import { login } from '../../Api/Authentication';
+import { useNavigate } from 'react-router';
 import { useDispatch } from 'react-redux';
 import { getToken } from '../../Redux/Actions/auth';
-import { feedback } from '../../Redux/Reducers/feedback';
-import { showFeedback } from '../../Redux/Actions/feedback';
-import { loader } from '../../Redux/Actions/loader';
+
 
 
 
@@ -103,7 +100,7 @@ export default function Login(props) {
             }}
           >
             <Box component="div">
-              <Typography variant='h3'>Shiplogic Solutions</Typography>
+              <Typography variant='h4'>Shiplogic Solutions</Typography>
             </Box>
             <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
               <LockOutlinedIcon />

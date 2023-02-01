@@ -104,7 +104,7 @@ export default function Header(props) {
         console.log("Logout")
         handleMenuClose();
         disptach(logout(navigate));
-        navigate('/login');
+        //navigate('/login');
     };
 
     const menuId = 'primary-search-account-menu';

@@ -1,6 +1,4 @@
-import { grey, red } from '@mui/material/colors';
-import { createTheme, ThemeProvider, styled, th, useTheme } from '@mui/material/styles';
-import { useSelector } from 'react-redux';
+import { createTheme, ThemeProvider, useTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 
 
@@ -27,6 +25,9 @@ export default function DefaultTheme({ children }) {
       },
       header: {
         bg: navColor
+      },
+      action:{
+        active: thememode === "dark" ? lightColor : darkColor,
       }
       
       /*

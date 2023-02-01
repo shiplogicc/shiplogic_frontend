@@ -4,7 +4,6 @@ import { feedback } from './feedback';
 import { loader } from './loader';
 import { nav } from './nav';
 
-const MIGRATION_DEBUG = false;
 
 const reducer = combineReducers({
     loader: loader,

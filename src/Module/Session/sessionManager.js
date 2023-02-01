@@ -1,13 +1,12 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 import { useDispatch, useSelector } from "react-redux"
 import { useLocation, useNavigate } from 'react-router';
-import { setAuthorized, validateSession } from '../Redux/Actions/auth';
+import { validateSession } from '../Redux/Actions/auth';
 import { ActionTypes } from '../Redux/Constants';
 
 
 export default function SessionManager(props) {
-    //console.log("SessionProps", props)
     const dispatch = useDispatch();
     const location = useLocation();
     const navigate = useNavigate();
@@ -15,6 +14,14 @@ export default function SessionManager(props) {
     const isAuthenticated = useSelector(state => state.authentication.isAuthenticated);
     const checkSession = async () => {
         if (auth) {
+            if (isAuthenticated) {
+                if (location.pathname === "/login") {
+                    return navigate('/');
+                }
+            } else {
+                dispatch({ type: ActionTypes.AUTHORIZATION, payload: null });
+                return navigate('/login');
+            };
             const currentTime = new Date();
             const expires = new Date(auth.expires);
             await dispatch(validateSession(navigate));
@@ -22,16 +29,7 @@ export default function SessionManager(props) {
                 dispatch({ type: ActionTypes.AUTHORIZATION, payload: null });
                 dispatch({ type: ActionTypes.VALIDATE_SESSION, payload: false });
                 return navigate('/login')
-            } else {
-                if (isAuthenticated) {
-                    if (location.pathname === "/login") {
-                        return navigate('/');
-                    }
-                } else {
-                    dispatch({ type: ActionTypes.AUTHORIZATION, payload: null });
-                    return navigate('/login');
-                };
-            };
+            }
         } else {
             dispatch({ type: ActionTypes.AUTHORIZATION, payload: null });
             dispatch({ type: ActionTypes.VALIDATE_SESSION, payload: false });
@@ -39,13 +37,14 @@ export default function SessionManager(props) {
         };
     };
     const onFocus = () => {
+        console.log('load')
         checkSession();
     };
     useEffect(() => {
-        window.addEventListener("focus", onFocus);
+        window.addEventListener("load", onFocus);
         checkSession();
         return () => {
-            window.removeEventListener("focus", onFocus);
+            window.removeEventListener("load", onFocus);
         }
     }, []);
     return null;
