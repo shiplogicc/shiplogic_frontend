@@ -16,8 +16,9 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import BgImage from '../../Assets/Static/Images/bg2.jpeg';
 import Logo from '../../Assets/Static/Images/logo1.jpeg';
 import { useNavigate } from 'react-router';
-import { useDispatch } from 'react-redux';
-import { getToken } from '../../Redux/Actions/auth';
+import { useDispatch, useSelector } from 'react-redux';
+import { getToken, loginResponse  } from '../../Redux/Actions/auth';
+import { showFeedback } from '../../Redux/Actions/feedback';
 
 
 
@@ -43,13 +44,14 @@ export default function Login(props) {
   const dispatch = useDispatch()
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const loginFailureResponse = useSelector(state => state.authentication.loginFailure)
   const handleSubmit = (event) => {
     event.preventDefault();
     let payload = {
       username: username,
       password: password,
     }
-    console.log(payload)
+
     dispatch(getToken(navigate, payload))
     // login(navigate, payload).then(response => {
     //   dispatch(loader({state:false, title:"Logging..."}))
@@ -66,10 +68,12 @@ export default function Login(props) {
     // })
   };
 
-  useEffect(()=>{
-   //dispatch(loader({state:false, title:"Logging..."}))
-   //dispatch({type: "AUTHORIZATION" , payload : null})
-  },[])
+  useEffect(() => {
+    dispatch(loginResponse(null))
+    //dispatch(showFeedback(null))
+    //dispatch(loader({state:false, title:"Logging..."}))
+    //dispatch({type: "AUTHORIZATION" , payload : null})
+  }, [])
 
   return (
     <ThemeProvider theme={theme}>
@@ -100,7 +104,7 @@ export default function Login(props) {
             }}
           >
             <Box component="div">
-              <Typography variant='h4'>Shiplogic Solutions</Typography>
+              <Typography variant='h3'>Shiplogic Solutions</Typography>
             </Box>
             <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
               <LockOutlinedIcon />
@@ -129,12 +133,20 @@ export default function Login(props) {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                //helperText={"Password?"}
                 onChange={(e) => setPassword(e.target.value)}
               />
               <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}
                 label="Remember me"
               />
+              {
+                loginFailureResponse &&
+                <Grid container>
+                  <Grid item  sx={{color:"red"}}>{loginFailureResponse.message}</Grid>
+                </Grid>
+              }
+
               <Button
                 type="submit"
                 fullWidth

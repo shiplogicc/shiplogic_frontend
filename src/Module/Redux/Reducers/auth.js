@@ -4,6 +4,7 @@ const initialState = {
     userProfile: null,
     isAuthenticated: false,
     isLogout: false,
+    loginFailure: null,
 };
 
 export const authentication = (state = initialState, action) => {
@@ -17,6 +18,8 @@ export const authentication = (state = initialState, action) => {
             return { ...state, isAuthenticated: payload };
         case ActionTypes.LOGOUT:
             return { ...state, isLogout: payload };
+        case ActionTypes.LOGIN_FAILURE:
+            return { ...state, loginFailure: payload };
         default:
             return state;
     };

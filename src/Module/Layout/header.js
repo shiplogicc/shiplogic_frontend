@@ -16,11 +16,12 @@ import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import { useNavigate } from 'react-router';
-import { Drawer} from '@mui/material';
+import { Button, Drawer, Link } from '@mui/material';
 import SideBar from './sidebar';
 import { useDispatch, useSelector } from 'react-redux';
-import { showFullMenu, showOnlyIcon } from '../Redux/Actions/nav';
+import { menuCollapse, setAccessedMenu, setAccessedSubMenu, showFullMenu, showOnlyIcon } from '../Redux/Actions/nav';
 import { logout } from '../Redux/Actions/auth';
+import AccountHeaderInfo from './accountHeaderInfo';
 
 
 const drawerWidth = 240;
@@ -67,15 +68,16 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function Header(props) {
     const navigate = useNavigate();
-    const disptach = useDispatch();
+    const dispatch = useDispatch();
+
     const showIcon = useSelector(state => state.nav.showOnlyIcon);
     const showMenu = useSelector(state => state.nav.showFullMenu);
     const { window } = props;
     const [drawerOpen, setDrawerOpen] = useState(false);
     const handleDrawerToggle = () => {
         setDrawerOpen((prevState) => !prevState);
-        disptach(showOnlyIcon(!showIcon))
-        disptach(showFullMenu(!showMenu))
+        dispatch(showOnlyIcon(!showIcon))
+        dispatch(showFullMenu(!showMenu))
     };
     const [anchorEl, setAnchorEl] = useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
@@ -100,10 +102,18 @@ export default function Header(props) {
         setMobileMoreAnchorEl(event.currentTarget);
     };
 
-    const handleLogout = () =>{
+    const handleAccount = () => {
+        handleMenuClose()
+        dispatch(menuCollapse(false))
+        dispatch(setAccessedMenu({id:1, title:"Account", url:'/account'}))
+        dispatch(setAccessedSubMenu(null))
+        navigate('/account')
+    }
+
+    const handleLogout = () => {
         console.log("Logout")
         handleMenuClose();
-        disptach(logout(navigate));
+        dispatch(logout(navigate));
         //navigate('/login');
     };
 
@@ -124,9 +134,8 @@ export default function Header(props) {
             open={isMenuOpen}
             onClose={handleMenuClose}
         >
-            <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-            <MenuItem onClick={handleMenuClose}>My account</MenuItem>
-            <MenuItem onClick={()=>handleLogout()}>Logout</MenuItem>
+            <MenuItem onClick={() => handleAccount()}>My account</MenuItem>
+            <MenuItem onClick={() => handleLogout()}>Logout</MenuItem>
         </Menu>
     );
 
@@ -148,20 +157,12 @@ export default function Header(props) {
             onClose={handleMobileMenuClose}
         >
             <MenuItem>
-                <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-                    <Badge badgeContent={4} color="error">
-                        <MailIcon />
-                    </Badge>
-                </IconButton>
-                <p>Messages</p>
-            </MenuItem>
-            <MenuItem>
                 <IconButton
                     size="large"
                     aria-label="show 17 new notifications"
                     color="inherit"
                 >
-                    <Badge badgeContent={17} color="error">
+                    <Badge badgeContent={0} color="error">
                         <NotificationsIcon />
                     </Badge>
                 </IconButton>
@@ -191,7 +192,7 @@ export default function Header(props) {
     }));
     const drawer = (
         <Box sx={{ textAlign: 'center' }}>
-            <SideBar {...props} handleDrawer={handleDrawerToggle}/>
+            <SideBar {...props} handleDrawer={handleDrawerToggle} />
         </Box>
     );
 
@@ -199,7 +200,7 @@ export default function Header(props) {
     const container = window !== undefined ? () => window().document.body : undefined;
     return (
         <Box sx={{ display: 'flex' }}>
-            <AppBar position='fixed' component="nav" sx={{bgcolor:"header.bg"}}>
+            <AppBar position='fixed' component="nav" sx={{ bgcolor: "header.bg" }}>
                 <Toolbar variant='dense'>
 
                     <Typography
@@ -228,19 +229,17 @@ export default function Header(props) {
                             inputProps={{ 'aria-label': 'search' }}
                         />
                     </Search>
-                    <Box sx={{ flexGrow: 1 }} />
+                    <Box sx={{ flexGrow: 1 }}>
+
+                    </Box>
                     <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-                        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-                            <Badge badgeContent={4} color="error">
-                                <MailIcon />
-                            </Badge>
-                        </IconButton>
+                        <AccountHeaderInfo {...props} />
                         <IconButton
                             size="large"
                             aria-label="show 17 new notifications"
                             color="inherit"
                         >
-                            <Badge badgeContent={17} color="error">
+                            <Badge badgeContent={0} color="error">
                                 <NotificationsIcon />
                             </Badge>
                         </IconButton>
@@ -302,19 +301,19 @@ export default function Header(props) {
                 </Hidden>
                 */}
                 <Drawer
-                        container={container}
-                        open={drawerOpen}
-                        onClose={handleDrawerToggle}
-                        anchor="left"
-                        ModalProps={{
-                            keepMounted: true, // Better open performance on mobile.
-                        }}
-                        sx={{
-                            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
-                        }}
-                    >
-                        {drawer}
-                    </Drawer>
+                    container={container}
+                    open={drawerOpen}
+                    onClose={handleDrawerToggle}
+                    anchor="left"
+                    ModalProps={{
+                        keepMounted: true, // Better open performance on mobile.
+                    }}
+                    sx={{
+                        '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+                    }}
+                >
+                    {drawer}
+                </Drawer>
             </Box>
         </Box>
     );

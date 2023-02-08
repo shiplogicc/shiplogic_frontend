@@ -41,7 +41,7 @@ export default function MainLayout(props) {
             <Header />
             <Main sx={{ pt: 6, pb: 5, flexGrow: 1 }}>
                 <CustomBreadcrumbs />
-                <Box sx={{ p: 1, m: 2, borderRadius: 1, borderWidth: 1 }}>
+                <Box sx={{ p: .5, m: 1.5, borderRadius: 1, borderWidth: 1 }}>
                     <Outlet />
                 </Box>
             </Main>

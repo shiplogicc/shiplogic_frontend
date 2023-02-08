@@ -6,3 +6,10 @@ export const loader = (payload) => {
         payload: payload
     };
 };
+
+export const showLinearLoader = (payload) => {
+    return {
+        type: ActionTypes.LINEAR_LOADER,
+        payload: payload
+    };
+};

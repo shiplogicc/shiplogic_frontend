@@ -3,6 +3,7 @@ import Loadable from "../Navigations/loadable";
 import MainLayout from "../Layout";
 
 const Dashboard = Loadable(lazy(() => import('../UIComponents/Home/dashboard')));
+const Account = Loadable(lazy(() => import('../UIComponents/Account/account')));
 const Error404 = Loadable(lazy(() => import('../UIComponents/Default/404')));
 const Error500 = Loadable(lazy(() => import('../UIComponents/Default/500')));
 const OrderList = Loadable(lazy(() => import('../UIComponents/Order/orderList')));
@@ -16,16 +17,17 @@ export const MainRoutes = {
 
         {
             path: '/',
-            element: <Dashboard />
+            element: <Dashboard />,
+            //loader: <SessionManager />
         },
         {
             path: '/dashboard',
-            element: <Dashboard />
+            element: <Dashboard />,
+            
         },
         {
             path: '/order/orderList',
             element: <OrderList />,
-
         },
         {
             path: 'order',
@@ -44,6 +46,10 @@ export const MainRoutes = {
                     element: <UploadOrder />
                 }
             ]
+        },
+        {
+            path:'/account',
+            element: <Account />
         }
     ]
 }

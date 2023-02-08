@@ -11,20 +11,21 @@ const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
     ...theme.typography.body2,
     padding: theme.spacing(1),
-    //textAlign: 'center',
+    textAlign: 'center',
     color: theme.palette.text.secondary,
-}));
+  }));
 
-export default function AddOrder(props) {
+export default function LogisticPriority(props) {
     const dispatch = useDispatch();
     useEffect(() => {
-        console.log("LoadOrder")
     }, [])
     return (
-        <Box sx={{ flexGrow: 1 }}>
-            <Item>
-                <Typography>Add Order</Typography>
-            </Item>
+        <Box sx={{flexGrow:1}}>
+            <Grid container>
+                <Grid item xs={12}>
+                    <Item>No Data Found!</Item>
+                </Grid>
+            </Grid>
         </Box>
     )
 }

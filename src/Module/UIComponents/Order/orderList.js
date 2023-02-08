@@ -1,4 +1,4 @@
-import { AppBar, Box, Button, Grid, IconButton, InputBase, Toolbar, Typography } from '@mui/material';
+import { AppBar, Box, Button, Grid, IconButton, InputBase, Toolbar, Typography, Paper } from '@mui/material';
 import * as React from 'react';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router';
@@ -7,13 +7,12 @@ import { loader } from '../../Redux/Actions/loader';
 import styled from '@mui/system/styled';
 
 
-const Item = styled('div')(({ theme }) => ({
+const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-    border: '1px solid',
-    borderColor: theme.palette.mode === 'dark' ? '#444d58' : '#ced7e0',
+    ...theme.typography.body2,
     padding: theme.spacing(1),
-    borderRadius: '4px',
-    textAlign: 'center',
+    //textAlign: 'center',
+    color: theme.palette.text.secondary,
 }));
 
 export default function OrderList(props) {
@@ -22,8 +21,10 @@ export default function OrderList(props) {
         //dispatch(loader(false))
     }, [])
     return (
-        <Box sx={{flexGrow:1}}>
-            <Typography>Order List</Typography>
+        <Box sx={{ flexGrow: 1 }}>
+            <Item>
+                <Typography>Order List</Typography>
+            </Item>
         </Box>
     )
 }

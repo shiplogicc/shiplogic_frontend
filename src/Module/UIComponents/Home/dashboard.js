@@ -9,9 +9,12 @@ import { Avatar, Box, Button, Grid, List, ListItem, ListItemAvatar, ListItemText
 import StorefrontTwoToneIcon from '@mui/icons-material/StorefrontTwoTone';
 import TableChartOutlinedIcon from '@mui/icons-material/TableChartOutlined';
 import MainCard from '../Default/Cards/mainCard';
-import PieChart from './pieChart';
+import PieChart from '../Chart/pieChart';
 import { showFeedback } from '../../Redux/Actions/feedback';
 import { getMenu } from '../../Api/Authentication';
+import { DonutChart } from '../Chart/donutChart';
+import { GeoChart } from '../Chart/geoChart';
+import { BarChart } from '../Chart/barChart';
 
 
 
@@ -23,8 +26,8 @@ function Dashboard(props) {
     const navigate = useNavigate()
     const theme = useTheme();
     const dispatch = useDispatch();
-    const handleFeedback = () =>{
-        dispatch(showFeedback({type:"error", message:"This is Information!"}))
+    const handleFeedback = () => {
+        dispatch(showFeedback({ type: "error", message: "This is Information!" }))
     }
     useEffect(() => {
         //dispatch(loader(false))
@@ -33,13 +36,25 @@ function Dashboard(props) {
         //dispatch({type: "VALIDATE_SESSION" , payload : false})
     }, [])
     return (
-        <Grid container spacing={3} >
-            <Grid item xs={12}>
-                <Button onClick={()=>handleFeedback()}>Click Me</Button>
-                <Typography variant='h4' color=''>PieChart</Typography>
-                <PieChart />
+        <Box sx={{ flexGrow: 1 }}>
+            <Grid container spacing={2} sx={{ flexDirection:{xs:'column', md:'row'}}}>
+                <Grid item xs>
+                    <Button onClick={() => handleFeedback()}>Click Me</Button>
+                    <Typography variant='h4' color=''>Donut Chart</Typography>
+                    <DonutChart />
+                </Grid>
+                <Grid item xs>
+                    <Button onClick={() => handleFeedback()}>Click Me</Button>
+                    <Typography variant='h4' color=''>Geo Chart</Typography>
+                    <GeoChart />
+                </Grid>
+                <Grid item xs={12}>
+                    <Button onClick={() => handleFeedback()}>Click Me</Button>
+                    <Typography variant='h4' color=''>Bar Chart</Typography>
+                    <BarChart />
+                </Grid>
             </Grid>
-        </Grid>
+        </Box>
     )
 }
 
